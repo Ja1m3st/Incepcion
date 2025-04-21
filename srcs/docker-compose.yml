@@ -1,0 +1,34 @@
+version: '3.9'
+
+services:
+  nginx:
+    build: ./requirements/nginx/.
+    container_name: nginx
+    restart: always
+    depends_on:
+      - wordpress
+      # - mariadb
+    ports:
+      - "4433:443"
+    volumes:
+      - ./web:/var/www/jaimesan.42.fr
+   
+  wordpress:
+    build: ./requirements/wordpress/.
+    container_name: wp_php
+    restart: always
+    # depends_on:
+    #   - mariadb
+    volumes:
+      - ./web:/var/www/jaimesan.42.fr
+    expose:
+      - 9000
+    
+  # mariadb:
+  #   build: ./requirements/mariadb/.
+  #   container_name: mariadb
+  #   restart: always
+  #   volumes:
+  #     - ./database:/var/www/jaimesan.42.fr
+  #   networks:
+  #     - network
