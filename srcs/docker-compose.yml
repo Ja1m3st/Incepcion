@@ -1,4 +1,4 @@
-version: '3.9'
+version: '2.2'
 
 services:
   nginx:
@@ -9,7 +9,7 @@ services:
       - wordpress
       # - mariadb
     ports:
-      - "4433:443"
+      - "443:443"
     volumes:
       - ./web:/var/www/jaimesan.42.fr
    
