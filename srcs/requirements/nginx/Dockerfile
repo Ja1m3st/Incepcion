@@ -8,7 +8,6 @@ RUN mkdir -p /etc/ssl/certs /etc/ssl/private && \
     -out /etc/ssl/certs/jaimesan.42.fr.crt \
     -subj "/CN=jaimesan.42.fr"
 
-
 COPY conf/default.conf /etc/nginx/conf.d/default.conf
 
 CMD ["nginx", "-g", "daemon off;"]

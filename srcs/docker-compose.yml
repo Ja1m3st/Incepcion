@@ -9,9 +9,12 @@ services:
       - wordpress
       # - mariadb
     ports:
+      - "80:80"
       - "443:443"
     volumes:
       - ./web:/var/www/jaimesan.42.fr
+    networks:
+        - inception_net
    
   wordpress:
     build: ./requirements/wordpress/.
@@ -23,6 +26,8 @@ services:
       - ./web:/var/www/jaimesan.42.fr
     expose:
       - 9000
+    networks:
+      - inception_net
     
   # mariadb:
   #   build: ./requirements/mariadb/.
@@ -32,3 +37,8 @@ services:
   #     - ./database:/var/www/jaimesan.42.fr
   #   networks:
   #     - network
+
+
+networks:
+  inception_net:
+    driver: bridge
