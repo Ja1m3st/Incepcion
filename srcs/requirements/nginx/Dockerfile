@@ -1,6 +1,6 @@
-FROM debian:bookworm
+FROM alpine:3.19
 
-RUN apt update && apt upgrade -y && apt install -y nginx openssl
+RUN apk update && apk upgrade && apk add --no-cache nginx openssl
 
 RUN mkdir -p /etc/ssl/certs /etc/ssl/private && \
     openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
@@ -8,6 +8,6 @@ RUN mkdir -p /etc/ssl/certs /etc/ssl/private && \
     -out /etc/ssl/certs/jaimesan.42.fr.crt \
     -subj "/C=ES/ST=Madrid/L=Madrid/O=42 School/OU=jaimesan/CN=jaimesan.42.fr"
 
-COPY conf/default.conf /etc/nginx/conf.d/default.conf
+COPY conf/default.conf /etc/nginx/http.d/default.conf
 
 CMD ["nginx", "-g", "daemon off;"]

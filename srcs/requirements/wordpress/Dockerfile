@@ -1,12 +1,17 @@
-FROM debian:bookworm
+FROM alpine:3.19
 
-RUN apt update && apt upgrade -y && apt install -y \
-    php-fpm \
-    php-mysqli \
+RUN apk update && apk upgrade && apk add --no-cache \
+    php82 \
+    php82-fpm \
+    php82-mysqli \
     curl
 
-COPY conf/www.conf /etc/php/8.2/fpm/pool.d/.
-# COPY script.sh .
-# RUN chmod +x script.sh
 
-CMD ["php-fpm8.2", "-F"]
+RUN adduser -u 82 -S -G www-data www-data
+RUN id www-data
+RUN mkdir -p /var/www/html && \
+    chown -R www-data:www-data /var/www
+
+COPY conf/www.conf /etc/php82/php-fpm.d/www.conf
+
+CMD ["php-fpm82", "-F"]
