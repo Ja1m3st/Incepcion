@@ -6,7 +6,7 @@ RUN mkdir -p /etc/ssl/certs /etc/ssl/private && \
     openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
     -keyout /etc/ssl/private/jaimesan.42.fr.key \
     -out /etc/ssl/certs/jaimesan.42.fr.crt \
-    -subj "/CN=jaimesan.42.fr"
+    -subj "/C=ES/ST=Madrid/L=Madrid/O=42 School/OU=jaimesan/CN=jaimesan.42.fr"
 
 COPY conf/default.conf /etc/nginx/conf.d/default.conf
 

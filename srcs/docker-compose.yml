@@ -12,7 +12,7 @@ services:
       - "80:80"
       - "443:443"
     volumes:
-      - ./web:/var/www/jaimesan.42.fr
+      - /home/jaimesan/data:/var/www/jaimesan.42.fr
     networks:
         - inception_net
    
@@ -23,7 +23,7 @@ services:
     # depends_on:
     #   - mariadb
     volumes:
-      - ./web:/var/www/jaimesan.42.fr
+      - /home/jaimesan/data:/var/www/jaimesan.42.fr
     expose:
       - 9000
     networks:
