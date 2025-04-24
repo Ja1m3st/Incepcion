@@ -1,16 +1,10 @@
 server {
-    listen 80;
-    server_name jaimesan.42.fr;
-    return 301 https://$host$request_uri; # Redirige http pone https
-}
-
-server {
     listen 443 ssl;
     server_name jaimesan.42.fr;
 
-    root                 /var/www/jaimesan.42.fr;
-    ssl_certificate      /etc/ssl/certs/jaimesan.42.fr.crt;
-    ssl_certificate_key  /etc/ssl/private/jaimesan.42.fr.key;
+    root                 /var/www/wordpress;
+    ssl_certificate      /etc/ssl/certs/nginx-selfsigned.crt;
+    ssl_certificate_key  /etc/ssl/private/nginx-selfsigned.key;
     ssl_protocols        TLSv1.2 TLSv1.3;
 
     index index.php index.html;
