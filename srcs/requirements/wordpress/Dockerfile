@@ -8,7 +8,7 @@ RUN apk add --no-cache \
 	mariadb-client curl \
 	php-phar php-simplexml php-xmlwriter php-tokenizer php-zip
 
-# Set the memory limit for PHP scripts to 256MB in the php.ini file
+# Set the memory limit for PHP scripts to 256MB in the php.ini file (this is for my VM)
 RUN echo 'memory_limit = 256M' >> /etc/php83/php.ini
 
 # Download the WP-CLI and install it to /usr/local/bin/wp
