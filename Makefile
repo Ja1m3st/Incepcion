@@ -7,21 +7,20 @@ DOCKER_FOLDER := srcs
 all: 
 	@mkdir -p /home/jaimesan/data/mariadb
 	@mkdir -p /home/jaimesan/data/wp_files
+	@mkdir -p /home/jaimesan/data/redis_files
 	@$(COMPOSE) -f $(DOCKER_FOLDER)/docker-compose.yaml up -d --build 
 
 # Print data
 echo:
-	@echo "\033[1;32m" # Green text
 	@echo
 	@docker images -a
-	@echo "\033[1;34mActive docker images are: \033[0m" $(IMAGES) # Blue text for the message
+	@echo "Active docker images are: " $(IMAGES)
 	@echo
 	@docker ps -a
-	@echo "\033[1;34mAll docker containers are: \033[0m" $(ALL_CONTAINERS) # Blue text for the message
+	@echo "All docker containers are: " $(ALL_CONTAINERS)
 	@echo
 	@docker volume list
-	@echo "\033[1;34mAll docker volumes are: \033[0m" $(ALL_VOLUMES) # Blue text for the message
-	@echo "\033[0m" # Reset colors
+	@echo "All docker volumes are: " $(ALL_VOLUMES)
 
 # Restart containers
 restart:
@@ -36,6 +35,7 @@ fclean:
 	@$(COMPOSE) -f $(DOCKER_FOLDER)/docker-compose.yaml down --volumes --rmi all --remove-orphans
 	@rm -rf /home/jaimesan/data/mariadb
 	@rm -rf /home/jaimesan/data/wp_files
+	@rm -rf /home/jaimesan/data/redis_files
 
 # Rebuild everything from scratch
 re: fclean all

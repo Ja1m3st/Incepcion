@@ -33,6 +33,14 @@ if [ ! -f /var/www/wordpress/wp-config.php ]; then
 		--admin_user=$WP_ADMIN_USER \
 		--admin_password=$WP_ADMIN_PASSWORD \
 		--admin_email=$WP_ADMIN_EMAIL --skip-email
+	
+	echo "Installing Redis Cache plugin..."
+    wp plugin install redis-cache --activate --allow-root --path='/var/www/wordpress'
+
+	wp plugin activate redis-cache --allow-root
+
+    echo "Enabling Redis Object Cache..."
+    wp redis enable --allow-root --path='/var/www/wordpress'
 
 # Create a new user in WordPress with the editor role
 cd /var/www/wordpress

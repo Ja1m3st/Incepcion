@@ -50,6 +50,17 @@ services:
     networks:
       - inception_net
 
+  redis:
+    build: ./requirements/bonus/redis/.
+    container_name: redis
+    restart: always
+    ports:
+      - 6379:6379
+    volumes:
+      - redis_files:/var/www/redis
+    networks:
+      - inception_net
+
 
 networks:
   inception_net:
@@ -70,3 +81,10 @@ volumes:
       type: none
       o: bind
       device: /home/jaimesan/data/wp_files
+  redis_files:
+    name: "redis_files"
+    driver: local
+    driver_opts: 
+      type: none
+      o: bind
+      device: /home/jaimesan/data/redis_files
