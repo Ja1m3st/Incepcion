@@ -34,17 +34,28 @@ if [ ! -f /var/www/wordpress/wp-config.php ]; then
 		--admin_password=$WP_ADMIN_PASSWORD \
 		--admin_email=$WP_ADMIN_EMAIL --skip-email
 	
-	echo "Installing Redis Cache plugin..."
-    wp plugin install redis-cache --activate --allow-root --path='/var/www/wordpress'
+		# Create a new user in WordPress with the editor role
+	cd /var/www/wordpress
+	wp user create $WP_USER $WP_EMAIL --role='editor' --user_pass=$WP_PASSWORD
 
-	wp plugin activate redis-cache --allow-root
+	# Configuración específica de Redis
+	wp config set WP_REDIS_HOST "$WP_REDIS_HOST" --allow-root
+	wp config set WP_REDIS_PORT "$WP_REDIS_PORT" --allow-root
+	wp config set WP_REDIS_SCHEME "$WP_REDIS_SCHEME" --allow-root
 
-    echo "Enabling Redis Object Cache..."
-    wp redis enable --allow-root --path='/var/www/wordpress'
+	# Instalar y activar plugin Redis
+	wp plugin install redis-cache --activate --allow-root
 
-# Create a new user in WordPress with the editor role
-cd /var/www/wordpress
-wp user create $WP_USER $WP_EMAIL --role='editor' --user_pass=$WP_PASSWORD
+	# Esperar adicional antes de activar Redis
+	echo "Waiting for Redis to be ready..." 2>/dev/stderr
+	while ! nc -z redis 6379; do
+	    sleep 1
+	done
+
+	wp redis enable --allow-root 
+
+	# Configuración adicional (usuarios, temas, etc.)
+	wp theme install twentyfifteen --activate --allow-root
 
 else
   echo "WordPress already configured. Skipping installation."

@@ -7,7 +7,6 @@ DOCKER_FOLDER := srcs
 all: 
 	@mkdir -p /home/jaimesan/data/mariadb
 	@mkdir -p /home/jaimesan/data/wp_files
-	@mkdir -p /home/jaimesan/data/redis_files
 	@$(COMPOSE) -f $(DOCKER_FOLDER)/docker-compose.yaml up -d --build 
 
 # Print data
@@ -33,9 +32,9 @@ clean:
 # Full clean: containers, volumes, images, networks
 fclean:
 	@$(COMPOSE) -f $(DOCKER_FOLDER)/docker-compose.yaml down --volumes --rmi all --remove-orphans
+	@docker image prune -f
 	@rm -rf /home/jaimesan/data/mariadb
 	@rm -rf /home/jaimesan/data/wp_files
-	@rm -rf /home/jaimesan/data/redis_files
 
 # Rebuild everything from scratch
 re: fclean all
