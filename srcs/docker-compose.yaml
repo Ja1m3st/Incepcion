@@ -84,11 +84,27 @@ services:
   static_web:
     build: ./requirements/bonus/static_web/
     container_name: static_web
-    restart: on-failure
+    restart: always
     ports:
       - "8081:81" 
     networks:
       - inception_net
+
+  adminer:
+    build: ./requirements/bonus/adminer
+    container_name: adminer
+    restart: on-failure
+    depends_on:
+      - mariadb
+    ports:
+      - "8080:8080"
+    networks:
+      - inception_net
+    environment:
+      - ADMINER_DEFAULT_SERVER=mariadb
+      - ADMINER_DEFAULT_USERNAME=${MYSQL_USER}
+      - ADMINER_DEFAULT_PASSWORD=${MYSQL_PASSWORD}
+
 
 networks:
   inception_net:

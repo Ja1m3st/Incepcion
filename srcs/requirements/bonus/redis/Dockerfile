@@ -3,8 +3,6 @@ FROM alpine:3.20
 # Actualiza los paquetes y instala Redis
 RUN apk update && apk add --no-cache redis
 
-RUN mkdir -p /data
-
 EXPOSE 6379
 
 RUN mkdir -p /etc/redis && mv /etc/redis.conf /etc/redis/ \
