@@ -1,30 +1,21 @@
 FROM alpine:3.20
 
-# Instalar dependencias necesarias
-RUN apk update && apk add --no-cache \
-    apache2 \
-    php83 \
-    php83-apache2 \
-    php83-curl \
-    php83-cli \
+
+RUN apk add --no-cache php83 \
     php83-mysqli \
-    php83-gd \
-    mariadb \
-    wget \
-    && rm -rf /var/cache/apk/*
+    php83-pdo \
+    php83-pdo_mysql \
+    php83-session \
+    php83-curl \
+    wget
 
-# Descargar Adminer
-WORKDIR /var/www/localhost/htdocs 
-RUN wget https://www.adminer.org/latest.php -O /var/www/localhost/htdocs/adminer.php && \
-    chown -R apache:apache /var/www/localhost/htdocs/adminer.php && \
-    chmod 755 /var/www/localhost/htdocs/adminer.php && \
-    rm -rf /var/www/localhost/htdocs/index.html
 
-# Configurar Apache para escuchar en el puerto 8080
-RUN sed -i "s/Listen 80/Listen 8080/g" /etc/apache2/httpd.conf
+WORKDIR /var/www
 
-# Exponer el puerto 8080
+RUN wget https://github.com/vrana/adminer/releases/download/v4.8.1/adminer-4.8.1.php && \
+    mv adminer-4.8.1.php index.php && \
+    chown -R root:root /var/www/
+
 EXPOSE 8080
 
-# Comando para ejecutar Apache en primer plano
-ENTRYPOINT ["/usr/sbin/httpd", "-D", "FOREGROUND"]
+CMD ["php83", "-S", "0.0.0.0:8080", "-t", "/var/www"]
