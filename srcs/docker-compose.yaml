@@ -78,6 +78,15 @@ services:
     environment:
       FTP_USER: ${FTP_USER}
       FTP_PASSWORD: ${FTP_PASSWORD}
+      seccomp_sandbox: ${seccomp_sandbox}
+      listen: ${listen}
+      pasv_min_port: ${pasv_min_port}
+      pasv_max_port: ${pasv_max_port}
+      anonymous_enable: ${anonymous_enable}
+      write_enable: ${write_enable}
+      local_enable: ${local_enable}
+      chroot_local_user: ${chroot_local_user}
+      allow_writeable_chroot: ${allow_writeable_chroot}
     networks:
       - inception_net
     
@@ -101,10 +110,18 @@ services:
     networks:
       - inception_net
     environment:
-      - ADMINER_DEFAULT_SERVER=mariadb
+      - ADMINER_DEFAULT_SERVER=${MYSQL_SERVER}
       - ADMINER_DEFAULT_USERNAME=${MYSQL_USER}
       - ADMINER_DEFAULT_PASSWORD=${MYSQL_PASSWORD}
 
+  whoami:
+    build: ./requirements/bonus/whoami
+    container_name: whoami
+    ports:
+      - "8082:80"
+    restart: on-failure
+    networks:
+      - inception_net
 
 networks:
   inception_net:
